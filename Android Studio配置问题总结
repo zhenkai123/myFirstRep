@@ -1,0 +1,10 @@
+这几天在配置Android Studio进行安卓应用开发，遇到了不少问题，最终一一解决，先将问题简要记录如下：
+
+关于Android Studio对项目build时出现的问题
+
+1.Could not install Gradle distribution from ‘http://services.gradle.org/distributions/gradle-6.5-bin.zip’.
+无法下载gradle的包，可以尝试手动下载缺少的包，然后将包导入对应的文件位置（https://services.gradle.org/distributions/）
+2.Cause: unable to find valid certification path to requested target
+要确保在build时不在校园网环境中，也不要使用校园网的vpn，我就是在任务管理器中偶然发现校园网的vpn客户端居然在偷偷运行，当关闭后就会解决这个报错
+3.在build时会在下载某个jar包时卡住，这时可以手动下载，详情可参见下面这条博客
+https://blog.csdn.net/qq_40067488/article/details/104896201
