@@ -1,0 +1,91 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* ret = new ListNode();
+  ListNode* r = ret;
+  ListNode* ptr1 = l1;
+  ListNode* ptr2 = l2;
+  bool isAdd = false;
+  int sum = ptr1->val + ptr2->val;
+  if (sum > 9) {
+    isAdd = true;
+  }
+  ret->val = sum % 10;
+  while (ptr1->next && ptr2->next) {
+    ret->next = new ListNode();
+    ret = ret->next;
+    ptr1 = ptr1->next;
+    ptr2 = ptr2->next;
+    if (isAdd) {
+      sum = ptr1->val + ptr2->val+1;
+    }
+    else {
+      sum = ptr1->val + ptr2->val;
+    }
+    ret->val = sum % 10;
+    if (sum > 9) {
+      isAdd = true;
+    }
+    else {
+      isAdd = false;
+    }
+  }
+  if (ptr1->next) {
+    while (ptr1->next) {
+      ptr1 = ptr1->next;
+      ret->next = new ListNode();
+      ret = ret->next;
+      if (isAdd) {
+        sum = ptr1->val + 1;
+        ret->val = sum % 10;
+        if (sum > 9) {
+          isAdd = true;
+        }
+        else {
+          isAdd = false;
+        }
+      }
+      else {
+        ret->val = ptr1->val;
+      }
+
+    }
+  }
+  else if (ptr2->next) {
+    while (ptr2->next) {
+      ptr2 = ptr2->next;
+      ret->next = new ListNode();
+      ret = ret->next;
+      if (isAdd) {
+        sum = ptr2->val + 1;
+        ret->val = sum % 10;
+        if (sum > 9) {
+          isAdd = true;
+        }
+        else {
+          isAdd = false;
+        }
+      }
+      else {
+        ret->val = ptr2->val;
+      }
+    }
+
+  }
+  if (isAdd) {
+    ret->next = new ListNode(1);
+
+  }
+  return r;
+    }
+};
