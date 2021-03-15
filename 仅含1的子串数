@@ -1,0 +1,17 @@
+class Solution {
+public:
+    int numSub(string s) {
+  long ret = 0;
+  long len = 0;
+  for (int index = 0; index < s.size(); index++) {
+    if (s[index] == '1') {
+      len++;
+    }
+    if (s[index] == '0'||index==s.size()-1) {
+      ret += (len + 1) * len / 2;
+      len = 0;
+    }
+  }
+  return ret%(int)(pow(10,9)+7);
+}
+};
