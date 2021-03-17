@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int maxlength = 0;
+  int index = 0;
+  while (index < s.size()) {
+    string ss;
+    int length = 0;
+    while (ss.find(s[index]) == -1&&index<s.size()) {
+      ss.push_back(s[index]);
+      length++;
+      index++;
+    }
+    index = index - length + 1;
+    if (length > maxlength) {
+      maxlength = length;
+    }
+    if (s.size() - index <= maxlength) {
+      break;
+    }
+  }
+  return maxlength;
+    }
+};
