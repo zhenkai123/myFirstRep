@@ -1,0 +1,98 @@
+北京邮电大学软件学院
+2020-2021学年第二学期实验报告
+
+  
+课程名称：  大数据原理与技术   
+
+项目名称：     实验一：安装单机hadoop系统  
+
+项目完成人：
+姓名：___丁振凯_____学号：___2018211978____
+
+指导教师：___________孙鹏飞___________
+
+
+
+日    期：  2021年 3 月 22  日
+ 
+一、	实验目的
+在自己的电脑上正确安装并运行伪分布式Hadoop系统，并将一组英文网页数据通过本机Hadoop系统自带的WordCount可执行程序文件,产生输出结果	
+二、	实验内容
+1. 每人在自己本地电脑上正确安装和运行伪分布式 Hadoop系统。 
+2. 安装完成后,自己寻找一组英文网页数据,在本机上运 行Hadoop系统自带的WordCount可执行程序文件,并 产生输出结果 
+3. 实验结果提交：要求书写一个实验报告，其中包括 ： 
+（1）. 系统安装运行的情况 
+（2）. 实验数据说明（下载的什么网页数据，多少个HTML或text文件) 
+（3）. 程序运行后在Hadoop Web作业状态查看界面上的作业运行状态屏幕拷贝 
+（4）. 实验输出结果开头部分的屏幕拷贝 
+（5）. 实验体会
+三、	实验环境
+Ubuntu 16.04 LTS hadoop2.10.1
+四、	实验结果
+1.	系统安装运行的情况 
+
+ 2. 实验数据说明（下载的什么网页数据，多少个HTML或text文件) 
+本次实验使用的是中国人民网英文网页中的《China's development blueprint to stabilize global economic recovery》和《Xi delivers video speech to Colombian people as Chinese vaccines arrive》
+3. 程序运行后在Hadoop Web作业状态查看界面上的作业运行状态屏幕拷贝 
+
+4. 实验输出结果开头部分的屏幕拷贝 
+ 
+5. 实验体会
+伪分布式运行模式是在单台服务器上模拟Hadoop的完全分布模式，单机上的分布式并不是真正的分布式，而是使用线程模拟的分布式。在这个模式中，所有守护进程(NameNode，DataNode，ResourceManager，NodeManager，SecondaryNameNode)都在同一台机器上运行。因为伪分布运行模式的Hadoop集群只有一个节点，所以HDFS中的块复制将限制为单个副本，其secondary-master和slave也都将运行于本地主机。此种模式除了并非真正意义的分布式之外，其程序执行逻辑完全类似于完全分布式，因此，常用于开发人员测试程序的执行。
+五、	附录
+运行wordcount基本步骤
+　1.在本地新建一个文件，在/home/hadoop/Downloads目录下新建了一个text文件夹，里面有text1和text2两个文本文件，分别存储一篇英文文章。
+
+　　2.在HDFS中新建一个文件夹，用于上传本地的words文档，在hadoop2.10.1目录下输入如下命令：
+　　　　bin/hdfs dfs -mkdir /test，表示在hdfs的根目录下建立了一个test目录
+使用如下命令可以查看HDFS根目录下的目录结构
+　　　　bin/hdfs dfs -ls /
+具体截图如下：
+ 
+表示在HDFS的根目录下已经建立了一个test目录
+
+　 3.将本地文档上传到test目录中
+　　　　使用如下命令进行上传操作：
+　　　　bin/hdfs dfs -put /home/hadoop/Downloads /test/
+　　　　使用如下命令进行查看
+　　　　bin/hdfs dfs -ls /test/
+　结果截图如下：（其中的out和text为之前测试时使用的测试文件）
+ 
+表示已经将本地的words文档上传到了test目录下了。
+　4.运行wordcount
+　　　　使用如下命令运行wordcount：
+　　bin/hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.10.1.jar wordcount /test/text /test/textout
+　　　　截图如下：
+ 
+　　　　
+
+　　　　运行完成后，在/test目录下生成名为out的文件，使用如下命令查看/test目录下的文件
+
+　　　　bin/hdfs dfs -ls /test
+　　　　截图如下：
+ 
+　　　　
+
+　　　　表示在test目录下已经有了一个名为Out的文件目录
+　　　　输入如下命令查看out目录下的文件：
+　　　　bin/hdfs dfs -ls /test/out，结果截图如下：
+ 
+　　　　表示已经成功运行了，结果保存在part-r-00000中。
+
+　　5.查看运行结果
+
+　　　　使用如下命令查看运行结果：
+　　　　bin/hadoop fs -cat /test/out/part-r-00000
+　　　　结果截图如下：
+ 
+　　至此，运行过程就已经完成了。
+
+
+问题：在将本地文件上传到hdfs时出现了一个没有正在运行的datanode节点的问题，截图如下：
+ 
+查阅资料可知，出现上述问题可能是格式化两次hadoop，导致没有datanode
+解决办法是：找到hadoop安装目录下 hadoop-2.4.1/data/dfs/data里面的current文件夹删除
+然后从新执行一下 hadoop namenode -format
+再使用start-dfs.sh和start-yarn.sh 重启一下hadoop
+用jps命令看一下就可以看见datanode已经启动了
+ 
