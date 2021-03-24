@@ -1,0 +1,7 @@
+1.gradle各种版本的下载地址：https://services.gradle.org/distributions/
+2.在使用AS开发安卓应用程序的时候经常会遇到Gradle build running一直在运行甚至卡死的情况，解决方法如下：
+   在C:\User\<用户名 \.gradle 目录下新建一个gradle.properties文件，并在里面添加一行：org.gradle.daemon=true
+   打开AS，在Settings中设置Gradle的工作模式为offline，如下图：
+   这样就可以解决一直在running的问题了
+3.Caused by: org.gradle.api.internal.plugins.PluginApplicationException: Failed to apply plugin [id 'com.android.application']
+  原因：项目路径中包含中文
